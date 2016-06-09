@@ -1,0 +1,35 @@
+
+.logo{
+	margin-top: 100px;
+	text-align: center;
+}
+.search{
+	padding-bottom: 20px;
+    padding-top: 20px;
+    text-align: center;
+}
+.center_1{
+	text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.center_2{
+	text-align: center;
+    padding-bottom: 5px;
+    padding-top: 25px;
+}
+.center_3{
+	text-align: center;
+    padding-bottom: 10px;
+    padding-top: 0px;
+}
+
+.input_search{
+	text-align: center;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    width: 700px;
+    height:24px;
+    border: 1px solid blue;
+    font-size: 22px;
+}

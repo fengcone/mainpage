@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fengcone.mainpage.mapper.SearchResultMapper">
+	<resultMap type="fengcone.mainpage.pojo.search.SearchResult" id="srRM">
+		<id column="id" property="id"/>
+		<result column="search_id" property="searchId"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="search_time" property="searchTime"/>
+		<result column="url" property="url"/>
+		<result column="image_url" property="imageUrl"/>
+		<result column="site_time" property="siteTime"/>
+		<result column="engine_name" property="engineName"/>
+	</resultMap>
+	<insert id="insert" parameterType="fengcone.mainpage.pojo.search.SearchResult">
+		insert into search_result
+		(id,search_id,title,content,search_time,url,image_url,site_time,engine_name)
+		values(#{id},#{searchId},#{title},#{content},#{searchTime},#{url},#{imageUrl},#{siteTime},#{engineName});
+	</insert>
+	<insert id="insertList" parameterType="java.util.ArrayList">
+		insert into search_result
+		(id,search_id,title,content,search_time,url,image_url,site_time,engine_name)
+		values
+		<foreach collection="list" item="result" separator="," index="index">
+			(#{result.id},#{result.searchId},#{result.title},#{result.content},#{result.searchTime},#{result.url},#{result.imageUrl},#{result.siteTime},#{result.engineName})
+		</foreach>
+		;
+	</insert>
+	<select id=""></select>
+</mapper>  

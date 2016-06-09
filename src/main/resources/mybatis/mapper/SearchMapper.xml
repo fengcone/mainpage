@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fengcone.mainpage.mapper.SearchMapper">
+	<resultMap type="fengcone.mainpage.pojo.search.Search" id="searchRM">
+		<id column="id" property="id" />
+		<result column="search_content" property="searchContent" />
+		<result column="engine_name" property="engineName" />
+		<result column="search_time" property="searchTime" />
+		<association property="keyResult"
+			javaType="fengcone.mainpage.pojo.search.SearchResult">
+			<id column="key_id" property="id" />
+			<result column="id" property="searchId" />
+			<result column="search_content" property="searchContent" />
+			<result column="key_title" property="title" />
+			<result column="key_content" property="content" />
+			<result column="search_time" property="searchTime" />
+			<result column="key_url" property="url" />
+			<result column="key_image_url" property="imageUrl" />
+			<result column="key_site_time" property="siteTime" />
+			<result column="engine_name" property="engineName" />
+		</association>
+		<collection property="clickedResults"
+			ofType="fengcone.mainpage.pojo.search.SearchResult">
+			<id column="result_id" property="id" />
+			<result column="id" property="searchId" />
+			<result column="search_content" property="searchContent" />
+			<result column="title" property="title" />
+			<result column="content" property="content" />
+			<result column="search_time" property="searchTime" />
+			<result column="url" property="url" />
+			<result column="image_url" property="imageUrl" />
+			<result column="site_time" property="siteTime" />
+			<result column="engine_name" property="engineName" />
+		</collection>
+	</resultMap>
+
+	<insert id="insert" parameterType="fengcone.mainpage.pojo.search.Search"
+		keyProperty="id">
+		insert into search
+		(id,search_content,key_result_id,engine_name,search_time)
+		values(#{id},#{searchContent},#{keyResult.id},#{engineName},#{searchTime});
+	</insert>
+	<select id="querySearchById" parameterType="string" resultMap="searchRM">
+		SELECT * FROM(
+		(SELECT
+		s.id,
+		sr.id AS result_id,
+		sr.title,
+		sr.content,
+		sr.url,
+		sr.image_url,
+		sr.site_time
+		FROM(
+		(SELECT * FROM search) s
+		LEFT JOIN
+		(SELECT * FROM search_result) sr
+		ON sr.search_id = s.id)
+		) r
+		LEFT JOIN
+		(SELECT
+		s.search_content,
+		s.engine_name,
+		s.search_time,
+		sr.search_id,
+		sr.id AS key_id,
+		sr.title AS key_title,
+		sr.content AS key_content,
+		sr.url AS key_url,
+		sr.image_url AS key_image_url,
+		sr.site_time AS key_site_time
+		FROM(
+		(SELECT * FROM search) s
+		LEFT JOIN
+		(SELECT * FROM search_result) sr
+		ON s.key_result_id = sr.id)
+		)k
+		ON r.id = k.search_id)
+		where id = #{id};
+	</select>
+</mapper>  
